@@ -1,27 +1,29 @@
-import { Controller, Get, Post } from '@nestjs/common';
+import { Body, Controller, Get, Param, Post } from '@nestjs/common';
 import { RentService } from './rent.service';
+import { RentDto } from './dto/rent.dto';
+import { ReportDto } from './dto/report.dto';
 
-@Controller()
+@Controller('rent')
 export class RentController {
   constructor(private rentService: RentService) {}
 
-  @Get()
-  async checkCar() {
-    return await this.rentService.checkCar();
+  @Get('check/:id')
+  async checkCar(@Param('id') idCar: number) {
+    return await this.rentService.checkCar(idCar);
   }
 
-  @Get()
-  async cost() {
-    return await this.rentService.cost();
+  @Get('cost')
+  cost(@Param('days') days: number): number {
+    return this.rentService.cost(days);
   }
 
   @Post()
-  async rentCar() {
-    return await this.rentService.rentCar();
+  async rentCar(@Body() rent: RentDto): Promise<void> {
+    return await this.rentService.rentCar(rent);
   }
 
-  @Get()
-  async averageLoadReport() {
+  @Get('report')
+  async averageLoadReport(): Promise<ReportDto> {
     return await this.rentService.averageLoadReport();
   }
 }

@@ -15,15 +15,10 @@ export class DatabaseService {
       port: confDb.port,
       user: confDb.user,
       password: confDb.password,
-      database: confDb.database,
     });
-
-    // create table
-    // TODO: Сделать таблицу для машин? Чтобы в таблице car_rentals была связь (REFERENCES) на id car
-    this.query('CREATE TABLE IF NOT EXISTS car_rentals ( id SERIAL PRIMARY KEY, car_id INTEGER, client_id INTEGER, start_date DATE, end_date DATE )');
   }
 
-  query(text: string, params?: string[]): Promise<QueryResult> {
+  query(text: string, params?: any[]): Promise<QueryResult> {
     return this.pool.query(text, params);
   }
 }
