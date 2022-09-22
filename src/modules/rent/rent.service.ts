@@ -4,6 +4,7 @@ import { DateTime } from 'luxon';
 import { RentDto } from './dto/rent.dto';
 import { ConfigService } from '@nestjs/config';
 import { ReportCar, ReportDto } from './dto/report.dto';
+import { CarRentalsInterface } from '../../database/entities/car-rentals.interface';
 
 @Injectable()
 export class RentService {
@@ -15,7 +16,7 @@ export class RentService {
   ) {}
 
   async checkCar(idCar: number): Promise<boolean> {
-    const { rows, rowCount } = await this.db.query(
+    const { rows, rowCount }: { rows: CarRentalsInterface[], rowCount: number } = await this.db.query(
       'SELECT end_date FROM car_rentals WHERE car_id = $1 ORDER BY end_date DESC LIMIT 1',
       [String(idCar)],
     );
@@ -79,7 +80,7 @@ export class RentService {
   }
 
   async averageLoadReport(): Promise<ReportDto> {
-    let { rows } = await this.db.query(
+    let { rows }: { rows: CarRentalsInterface[] } = await this.db.query(
       "SELECT * FROM car_rentals WHERE start_date >  CURRENT_DATE - 30",
     );
 

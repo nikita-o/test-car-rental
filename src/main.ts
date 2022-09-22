@@ -6,11 +6,10 @@ import { migration } from './database/migration';
 import { ConfigService } from '@nestjs/config';
 
 async function bootstrap(): Promise<void> {
+  // Кринж, но так удобно
   await migration();
 
   const app = await NestFactory.create(AppModule);
-
-  console.log('loooooooooooooool');
 
   middlewares(app);
 
