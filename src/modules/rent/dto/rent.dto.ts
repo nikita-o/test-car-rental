@@ -1,6 +1,15 @@
+import { ApiProperty } from '@nestjs/swagger';
+
 export class RentDto {
+  @ApiProperty()
   idCar!: number;
+
+  @ApiProperty()
   idClient!: number;
-  startDate!: Date;
-  endDate!: Date;
+
+  @ApiProperty({ type: Date })
+  startDate!: string;
+
+  @ApiProperty({ type: Date })
+  endDate!: string;
 }

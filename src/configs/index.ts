@@ -2,7 +2,6 @@
 // @ts-nocheck
 const { env } = process;
 export const config = () => ({
-  host: env.HOST || 'localhost',
   port: +env.PORT || 3000,
   prod: !!+env.PROD || false,
   database: {
@@ -10,8 +9,7 @@ export const config = () => ({
     port: +env.DB_PORT || 5432,
     user: env.DB_USER || 'postgres',
     password: env.DB_PASSWORD || 'postgres',
-    //database: 'car_rental',
+    database: 'car_rental',
   },
-  secretKey: env.SECRET_KEY,
   rentPrice: 1000,
 });
