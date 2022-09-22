@@ -1,15 +1,20 @@
 import { ApiProperty } from '@nestjs/swagger';
+import { IsDate, IsNumber } from 'class-validator';
 
 export class RentDto {
   @ApiProperty()
+  @IsNumber()
   idCar!: number;
 
   @ApiProperty()
+  @IsNumber()
   idClient!: number;
 
-  @ApiProperty({ type: Date })
-  startDate!: string;
+  @ApiProperty()
+  @IsDate()
+  startDate!: Date;
 
-  @ApiProperty({ type: Date })
-  endDate!: string;
+  @ApiProperty()
+  @IsDate()
+  endDate!: Date;
 }

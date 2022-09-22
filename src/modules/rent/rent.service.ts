@@ -25,10 +25,9 @@ export class RentService {
       return true;
     }
 
-    const end_date: DateTime = DateTime.fromISO(rows[0].end_date)
-    const { days } = end_date.diffNow('days').toObject()
-
-    return Number(days) > 3
+    const end_date: DateTime = DateTime.fromJSDate(rows[0].end_date);
+    const { days } = DateTime.now().diff(end_date, 'days').toObject();
+    return Number(days) > 3;
   }
 
   cost(days: number): number {
@@ -59,8 +58,8 @@ export class RentService {
   }
 
   async rentCar(rent: RentDto): Promise<void> {
-    const start_date: DateTime = DateTime.fromISO(rent.startDate);
-    const end_date: DateTime = DateTime.fromISO(rent.endDate);
+    const start_date: DateTime = DateTime.fromJSDate(rent.startDate);
+    const end_date: DateTime = DateTime.fromJSDate(rent.endDate);
 
     if (start_date.toLocal().weekday > 5) {
       throw new ConflictException('Начало аренды в выходной!');
@@ -100,7 +99,7 @@ export class RentService {
     for (const reportKey in workload) {
       report.push({
         carId: +reportKey,
-        percentWorkload: workload[reportKey] / 30,
+        percentWorkload: +(workload[reportKey] / 30).toFixed(2),
       });
     }
 
