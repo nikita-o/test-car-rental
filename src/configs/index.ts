@@ -9,7 +9,7 @@ export const config = () => ({
     port: +env.DB_PORT || 5432,
     user: env.DB_USER || 'postgres',
     password: env.DB_PASSWORD || 'postgres',
-    database: 'car_rental',
+    database: env.POSTGRES_DB || 'car_rental',
   },
   rentPrice: 1000,
 });
