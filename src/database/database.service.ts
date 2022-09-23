@@ -16,4 +16,16 @@ export class DatabaseService {
   query(text: string, params?: any[]): Promise<QueryResult> {
     return this.pool.query(text, params);
   }
+
+  queryOneRow(text: string, params?: any[]): Promise<any> {
+    return this.pool.query(text, params).then((result) => {
+      return result.rows[0];
+    });
+  }
+
+  queryManyRows(text: string, params?: any[]): Promise<any> {
+    return this.pool.query(text, params).then((result) => {
+      return result.rows;
+    });
+  }
 }
