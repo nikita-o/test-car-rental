@@ -67,7 +67,7 @@ describe('rent', () => {
       const date = DateTime.now().plus({days: 1}).toJSDate();
       const rows = [{ end_date: date }];
       // @ts-ignore
-      jest.spyOn(db, 'query').mockResolvedValue({ rowCount: 1, rows });
+      jest.spyOn(db, 'query').mockResolvedValue(<Partial<any>>{ rowCount: 1, rows });
       const exp: boolean = await rentService.checkCar(idCar);
       expect(exp).toBe(false);
     });
@@ -100,7 +100,7 @@ describe('rent', () => {
   describe('rentCar', () => {
     it('start weekday > 5', () => {
       const rent: Partial<RentDto> = {
-        startDate: DateTime.local(2022, 9, 17).toJSDate(),
+        startDate: DateTime.local(2022, 9, 17).toISO(),
       };
       expect(async () => await rentService.rentCar(<RentDto>rent)).rejects.toThrowError(
         new ConflictException('Начало аренды в выходной!'),
@@ -109,8 +109,8 @@ describe('rent', () => {
 
     it('end weekday > 5', () => {
       const rent: Partial<RentDto> = {
-        startDate: DateTime.local(2022, 9, 15).toJSDate(),
-        endDate: DateTime.local(2022, 9, 17).toJSDate(),
+        startDate: DateTime.local(2022, 9, 15).toISO(),
+        endDate: DateTime.local(2022, 9, 17).toISO(),
       };
       expect(async () => await rentService.rentCar(<RentDto>rent)).rejects.toThrowError(
         new ConflictException('Окончание аренды в выходной!'),
@@ -119,8 +119,8 @@ describe('rent', () => {
 
     it('rent day > 30', () => {
       const rent: Partial<RentDto> = {
-        startDate: DateTime.local(2022, 8, 1).toJSDate(),
-        endDate: DateTime.local(2022, 10, 3).toJSDate(),
+        startDate: DateTime.local(2022, 8, 1).toISO(),
+        endDate: DateTime.local(2022, 10, 3).toISO(),
       };
       expect(async () => await rentService.rentCar(<RentDto>rent)).rejects.toThrowError(
         new ConflictException('Аренда более чем на 30 дней!'),

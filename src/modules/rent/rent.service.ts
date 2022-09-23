@@ -27,7 +27,7 @@ export class RentService {
     }
 
     const end_date: DateTime = DateTime.fromJSDate(rows[0].end_date);
-    const { days } = DateTime.now().diff(end_date, 'days').toObject();
+    const days = DateTime.now().diff(end_date, 'days').toObject().days;
     return Number(days) > 3;
   }
 
@@ -59,8 +59,8 @@ export class RentService {
   }
 
   async rentCar(rent: RentDto): Promise<void> {
-    const start_date: DateTime = DateTime.fromJSDate(rent.startDate);
-    const end_date: DateTime = DateTime.fromJSDate(rent.endDate);
+    const start_date: DateTime = DateTime.fromISO(rent.startDate);
+    const end_date: DateTime = DateTime.fromISO(rent.endDate);
 
     if (start_date.toLocal().weekday > 5) {
       throw new ConflictException('Начало аренды в выходной!');
